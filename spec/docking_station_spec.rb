@@ -33,7 +33,7 @@ describe DockingStation do
 
   describe '#release_bike' do
     it 'releases a bike' do
-      bike = Bike.new
+      bike = double(:bike)
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -53,6 +53,12 @@ describe DockingStation do
       bikes.map {|bike| bike.report_broken }
       bikes.each { |bike| subject.dock(bike) }
       expect {subject.release_bike}.to raise_error 'All Bikes Broken - cannot release bike'
+    end
+
+    it 'releases working bikes' do
+      subject.dock(Bike.new)
+      bike = subject.release_bike
+      expect(bike).to be_working
     end
 
   end
