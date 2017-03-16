@@ -12,12 +12,18 @@ class DockingStation
 
   def release_bike
     fail 'No bikes available' if empty?
-    bikes.pop
+    fail 'All Bikes Broken - cannot release bike' if bikes.all? {|i| i.broken? == true}
+    passing_bike = bikes.find {|i| i.broken? == nil || i.broken? == false }
+    bikes.delete(passing_bike)
+    passing_bike
   end
 
   def dock(bike)
-    fail 'Sorry, this docking station is full' if full?
-    bikes << bike
+      fail 'Sorry, this docking station is full' if full?
+      bikes << bike
+  end
+
+  def report(bike)
   end
 
   private
