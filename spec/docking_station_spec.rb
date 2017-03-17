@@ -36,7 +36,8 @@ describe DockingStation do
 
     it 'releases a bike' do
   #    bike = double(:bike)
-      allow(bike).to receive(:broken?).and_return(false)
+      # allow(bike).to receive(:broken?).and_return(false)
+      bike = double(:bike, broken?: false)
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -46,15 +47,18 @@ describe DockingStation do
     end
 
     it 'does not release one broken bike' do
-      allow(bike).to receive(:report_broken).and_return(true)
-      allow(bike).to receive(:broken?).and_return(true)
-      subject.dock(bike)
+      # allow(bike).to receive(:report_broken).and_return(true)
+      # allow(bike).to receive(:broken?).and_return(true)
+      # subject.dock double(:bike, report_broken: true, broken?: true)
+      bike = double(:bike, report_broken: true, broken?: true)
+      subject.dock bike
       expect {subject.release_bike}.to raise_error 'All Bikes Broken - cannot release bike'
     end
 
     it 'raises an error when all docked bikes are broken' do
-      allow(bike).to receive(:report_broken).and_return(true)
-      allow(bike).to receive(:broken?).and_return(true)
+    #  allow(bike).to receive(:report_broken).and_return(true)
+    #  allow(bike).to receive(:broken?).and_return(true)
+      bike = double(:bike, report_broken: true, broken?: true)
       bikes = []
       5.times {bikes.push(bike)}
       bikes.map {|bike| bike.report_broken }
