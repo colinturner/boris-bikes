@@ -14,14 +14,14 @@ describe DockingStation do
 
   it 'docks something' do
 
-    bike = Bike.new
+    bike = double(:bike)
     expect(subject.dock(bike)).to eq [bike]
 
 
   end
 
   it 'returns docked bikes' do
-    bike = Bike.new
+    bike = double(:bike)
     subject.dock(bike)
     expect(subject.bikes).to eq [bike]
   end
@@ -41,7 +41,7 @@ describe DockingStation do
       expect { subject.release_bike }.to raise_error 'No bikes available'
     end
     it 'does not release one broken bike' do
-      bike = Bike.new
+      bike = double(:bike)
       bike.report_broken
       subject.dock(bike)
       expect {subject.release_bike}.to raise_error 'All Bikes Broken - cannot release bike'
@@ -49,14 +49,14 @@ describe DockingStation do
 
     it 'raises an error when all docked bikes are broken' do
       bikes = []
-      5.times {bikes.push(Bike.new)}
+      5.times {bikes.push(double(:bike))}
       bikes.map {|bike| bike.report_broken }
       bikes.each { |bike| subject.dock(bike) }
       expect {subject.release_bike}.to raise_error 'All Bikes Broken - cannot release bike'
     end
 
     it 'releases working bikes' do
-      subject.dock(Bike.new)
+      subject.dock(double(:bike))
       bike = subject.release_bike
       expect(bike).to be_working
     end
@@ -65,8 +65,8 @@ describe DockingStation do
 
   describe '#dock' do
     it 'raises an error when full' do
-      subject.capacity.times { subject.dock Bike.new }
-      expect { subject.dock Bike.new }.to raise_error 'Sorry, this docking station is full'
+      subject.capacity.times { subject.dock double(:bike) }
+      expect { subject.dock double(:bike) }.to raise_error 'Sorry, this docking station is full'
     end
     # it 'fails to dock broken bike' do
     #   expect { subject.dock(Bike.new(true)) }.to raise_error 'Bike Broken - docking failed'
@@ -78,12 +78,12 @@ describe DockingStation do
   describe 'initialization' do
     it 'allows user to set capacity' do
       station = DockingStation.new(98)
-      98.times {station.dock Bike.new}
-      expect {station.dock Bike.new}.to raise_error 'Sorry, this docking station is full'
+      98.times {station.dock double(:bike)}
+      expect {station.dock double(:bike)}.to raise_error 'Sorry, this docking station is full'
     end
 
     subject {DockingStation.new}
-    let (:bike) {Bike.new}
+    let (:bike) {double(:bike)}
     it 'defaults capacity' do
       described_class::DEFAULT_CAPACITY.times do
         subject.dock(bike)
