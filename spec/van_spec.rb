@@ -28,7 +28,16 @@ describe Van do
       station = DockingStation.new
       bike.report_broken
       station.dock bike
-      expect(subject.van_bikes_set(station.brokenbikes)).to eq [bike]
+      expect(subject.van_bikes_set(station.brokenbikes, station)).to eq [bike]
+    end
+
+    it 'removes broken bikes from docking station when collecting them' do
+      bike = Bike.new
+      station = DockingStation.new
+      bike.report_broken
+      station.dock bike
+      subject.van_bikes_set(station.brokenbikes, station)
+      expect(station.brokenbikes).to eq []
     end
   end
 

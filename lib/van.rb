@@ -7,18 +7,20 @@ def initialize
   @van_bikes = []
 end
 
-
-def van_bikes
- @van_bikes
+def van_bikes_set(bikes_to_repair, station)  #station.brokenbikes, station
+  van_bikes = bikes_to_repair
+#  station.brokenbikes = []
+  remove_bikes_from_station(bikes_to_repair, station)
 end
 
-def van_bikes_set(bikes_to_repair)
-  @van_bikes = bikes_to_repair
+def remove_bikes_from_station(bikes_to_repair, station)
+  bikes_to_repair.each {|i| station.delete(i)}
+  van_bikes
 end
 
-end
 
-
-#def van_bikes_set = (argument)
-#  @van_bikes = argument
+#def remove_bikes_from_station(x)
+#  x = []
 #end
+
+end
