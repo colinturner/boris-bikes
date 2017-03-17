@@ -1,4 +1,5 @@
 require 'van'
+require 'docking_station'
 
 describe Van do
 
@@ -20,5 +21,16 @@ describe Van do
 
   end
 
-  
+
+  describe '#van_bikes_set' do
+    it 'sets the van_bikes variable to the argument given' do
+      bike = Bike.new
+      station = DockingStation.new
+      bike.report_broken
+      station.dock bike
+      expect(subject.van_bikes_set(station.brokenbikes)).to eq [bike]
+    end
+  end
+
+
 end
