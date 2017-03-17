@@ -32,8 +32,10 @@ describe DockingStation do
 
 
   describe '#release_bike' do
+    let(:bike) { double :bike }
     it 'releases a bike' do
-      bike = double(:bike)
+  #    bike = double(:bike)
+      allow(bike).to receive(:broken?).and_return(false)
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
