@@ -53,8 +53,10 @@ describe DockingStation do
     end
 
     it 'raises an error when all docked bikes are broken' do
+      allow(bike).to receive(:report_broken).and_return(true)
+      allow(bike).to receive(:broken?).and_return(true)
       bikes = []
-      5.times {bikes.push(double(:bike))}
+      5.times {bikes.push(bike)}
       bikes.map {|bike| bike.report_broken }
       bikes.each { |bike| subject.dock(bike) }
       expect {subject.release_bike}.to raise_error 'All Bikes Broken - cannot release bike'
